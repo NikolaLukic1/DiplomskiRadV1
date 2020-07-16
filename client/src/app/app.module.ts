@@ -22,7 +22,6 @@ import { HomeModule } from './home/home.module';
     FontAwesomeModule,
     HttpClientModule,
     CoreModule,
-    ShopModule,
     HomeModule
   ],
   providers: [],
