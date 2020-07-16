@@ -9,6 +9,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { from } from 'rxjs';
 import { CoreModule } from './core/core.module';
 import { ShopModule } from './shop/shop.module';
+import { HomeModule } from './home/home.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ShopModule } from './shop/shop.module';
     FontAwesomeModule,
     HttpClientModule,
     CoreModule,
-    ShopModule
+    ShopModule,
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
