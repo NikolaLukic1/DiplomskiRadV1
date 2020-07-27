@@ -16,9 +16,9 @@ declare var Stripe;
 })
 export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
   @Input() checkoutForm: FormGroup;
-  @ViewChild('cardNumber', {static:true}) cardNumberElement: ElementRef;
-  @ViewChild('cardExpiry', {static:true}) cardExpiryElement: ElementRef;
-  @ViewChild('cardCvc', {static:true}) cardCvcElement: ElementRef; 
+  @ViewChild('cardNumber', {static: true}) cardNumberElement: ElementRef;
+  @ViewChild('cardExpiry', {static: true}) cardExpiryElement: ElementRef;
+  @ViewChild('cardCvc', {static: true}) cardCvcElement: ElementRef;
   stripe: any;
   cardNumber: any;
   cardExpiry: any;
@@ -26,10 +26,13 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
   cardErrors: any;
   cardHandler = this.onChange.bind(this);
   loading = false;
+  cardNumberValid = false;
+  cardExpiryValid = false;
+  cardCvcValid = false;
 
-  constructor(private basketService: BasketService, 
+  constructor(private basketService: BasketService,
               private checkoutService: CheckoutService,
-              private toastr: ToastrService, 
+              private toastr: ToastrService,
               private router: Router) { }
 
   ngAfterViewInit(): void {
@@ -55,11 +58,24 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
     this.cardCvc.destroy();
   }
 
-  onChange({error}){
-    if (error) {
-      this.cardErrors = error.message;
+  onChange(event){
+    console.log(event);
+    if (event.error) {
+      this.cardErrors = event.error.message;
     } else {
       this.cardErrors = null;
+    }
+
+    switch (event.elementType) {
+      case 'cardNumber':
+        this.cardNumberValid = event.complete;
+        break;
+      case 'cardExpiry':
+        this.cardExpiryValid = event.complete;
+        break;
+      case 'cardCvc':
+        this.cardCvcValid = event.complete;
+        break;
     }
   }
 
@@ -69,9 +85,9 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
     try {
       const createdOrder = await this.createOrder(basket);
       const paymentResult = await this.confirmPaymentWithStripe(basket);
-  
-      if(paymentResult.paymentIntent){
-        this.basketService.deleteLocalBasket(basket.id);
+
+      if (paymentResult.paymentIntent){
+        this.basketService.deleteBasket(basket);
         const navigationExtras: NavigationExtras = {state: createdOrder};
         this.router.navigate(['checkout/success'], navigationExtras);
       } else {
@@ -83,7 +99,7 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
       this.loading = false;
     }
   }
-  
+
   private async confirmPaymentWithStripe(basket) {
     return this.stripe.confirmCardPayment(basket.clientSecret, {
       payment_method: {
@@ -94,7 +110,7 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
       }
     });
   }
-  
+
   private async createOrder(basket: IBasket) {
     const orderToCreate = this.getOrderToCreate(basket);
     return this.checkoutService.createOrder(orderToCreate).toPromise();
@@ -105,7 +121,7 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
       basketId: basket.id,
       deliveryMethodId: +this.checkoutForm.get('deliveryForm').get('deliveryMethod').value,
       shipToAddress: this.checkoutForm.get('addressForm').value
-    }
+    };
   }
 
 }
