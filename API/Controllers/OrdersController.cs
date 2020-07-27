@@ -38,13 +38,16 @@ namespace API.Controllers
             return Ok(order);
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<OrderDto>>> GetOrdersForUser(){
+     [HttpGet]
+        public async Task<ActionResult<IReadOnlyList<OrderDto>>> GetOrdersForUser()
+        {
             var email = HttpContext.User.RetrieveEmailFromPrincipal();
+
             var orders = await _orderService.GetOrdersForUserAsync(email);
 
             return Ok(_mapper.Map<IReadOnlyList<Order>, IReadOnlyList<OrderToReturnDto>>(orders));
         }
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderToReturnDto>> GetOrderByIdForUser(int id){

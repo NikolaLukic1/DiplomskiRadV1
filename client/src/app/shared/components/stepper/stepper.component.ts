@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CdkStepper } from '@angular/cdk/stepper'
+import { CdkStepper } from '@angular/cdk/stepper';
 
 @Component({
   selector: 'app-stepper',
@@ -10,11 +10,11 @@ import { CdkStepper } from '@angular/cdk/stepper'
 export class StepperComponent extends CdkStepper implements OnInit {
   @Input() linearModeSelected: boolean;
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.linear = this.linearModeSelected;
   }
 
-  onClick(index: number){
+  onClick(index: number) {
     this.selectedIndex = index;
   }
 
