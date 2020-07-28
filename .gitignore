@@ -2,3 +2,5 @@ obj
 bin
 *.db
 *.rdb
+publish
+wwwroot

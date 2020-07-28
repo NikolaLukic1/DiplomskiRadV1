@@ -28,7 +28,7 @@ export class AccountService {
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
 
-    return this.http.get(this.baseUrl + '/account', {headers}).pipe(
+    return this.http.get(this.baseUrl + 'account', {headers}).pipe(
       map((user: IUser) => {
         if(user) {
           localStorage.setItem('token', user.token);
@@ -39,7 +39,7 @@ export class AccountService {
   }
 
   login(values: any){
-    return this.http.post(this.baseUrl + '/account/login', values).pipe(
+    return this.http.post(this.baseUrl + 'account/login', values).pipe(
       map((user: IUser) => {
         if(user){
           localStorage.setItem('token', user.token);
@@ -50,7 +50,7 @@ export class AccountService {
   }
 
   register(values: any){
-    return this.http.post(this.baseUrl + '/account/register', values).pipe(
+    return this.http.post(this.baseUrl + 'account/register', values).pipe(
       map((user: IUser) => {
         if(user){
           localStorage.setItem('token', user.token);
@@ -67,14 +67,14 @@ export class AccountService {
   }
 
   checkEmailExists(email: string) {
-    return this.http.get(this.baseUrl + '/account/emailexists?email=' + email);
+    return this.http.get(this.baseUrl + 'account/emailexists?email=' + email);
   }
 
   getUserAddress() {
-    return this.http.get<IAddress>(this.baseUrl + '/account/address');
+    return this.http.get<IAddress>(this.baseUrl + 'account/address');
   }
 
   updateUserAddress(address: IAddress) {
-    return this.http.put<IAddress>(this.baseUrl + '/account/address', address);
+    return this.http.put<IAddress>(this.baseUrl + 'account/address', address);
   }
 }
