@@ -27,7 +27,7 @@ namespace API.Controllers
             _userManager = userManager;
         }
 
-        [Authorize]
+        //[Authorize(Roles = AppUserRole.Admin)]
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
@@ -87,7 +87,7 @@ namespace API.Controllers
             {
                 Email = user.Email,
                 Token = _tokenService.CreateToken(user),
-                DisplayName = user.DisplayName
+                DisplayName = user.DisplayName, 
             };
         }
 
@@ -105,8 +105,13 @@ namespace API.Controllers
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
+            await _userManager.AddToRoleAsync(user, registerDto.Role);
 
-            if (!result.Succeeded) return BadRequest(new ApiResponse(400));
+            if (!result.Succeeded) {return BadRequest(new ApiResponse(400));}
+            // else{
+            //     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            //     var confirmationLink = Url.Action("ConfirmEmail", "Account" , new { userId = user.Id, token = token}, Request.Scheme);
+            // }
 
             return new UserDto
             {

@@ -30,7 +30,7 @@ export class ShopComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getProducts(true);
+    this.getProducts(false);
     this.getBrands();
     this.getTypes();
   }
@@ -65,7 +65,7 @@ export class ShopComponent implements OnInit {
     params.brandId = brandId;
     params.pageNumber = 1;
     this.shopService.setShopParams(params);
-    this.getProducts();
+    this.getProducts(false);
   }
 
   onTypeSelected(typeId: number){
@@ -73,14 +73,14 @@ export class ShopComponent implements OnInit {
     params.typeId = typeId;
     params.pageNumber = 1;
     this.shopService.setShopParams(params);
-    this.getProducts();
+    this.getProducts(false);
   }
 
   onSortSelected(sort: string){
     const params = this.shopService.getShopParams();
     params.sort = sort;
     this.shopService.setShopParams(params);
-    this.getProducts();
+    this.getProducts(false);
   }
 
   onPageChanged(event: any){
@@ -88,7 +88,7 @@ export class ShopComponent implements OnInit {
     if(event !== this.shopParams.pageNumber){
     params.pageNumber = event;
     this.shopService.setShopParams(params);
-    this.getProducts(true);
+    this.getProducts(false);
     }
   }
 
@@ -97,13 +97,13 @@ export class ShopComponent implements OnInit {
     params.search = this.searchTerm.nativeElement.value;
     params.pageNumber = 1;
     this.shopService.setShopParams(params);
-    this.getProducts();
+    this.getProducts(false);
   }
 
   onReset() {
     this.searchTerm.nativeElement.value = '';
     this.shopParams = new ShopParams();
     this.shopService.setShopParams(this.shopParams);
-    this.getProducts();
+    this.getProducts(false);
   }
 }

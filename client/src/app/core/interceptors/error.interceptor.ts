@@ -27,6 +27,9 @@ export class ErrorInterceptor implements HttpInterceptor {
                 if (error.status === 404) {
                     this.router.navigateByUrl('/not-found');
                 }
+                if (error.status === 403) {
+                    this.router.navigateByUrl('/forbidden');
+                }
                 if (error.status === 500) {
                     const navigationExtras: NavigationExtras = {state: {error: error.error}};
                     this.router.navigateByUrl('/server-error', navigationExtras);

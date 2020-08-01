@@ -1,0 +1,71 @@
+<div class="container mt-3">
+    <div class="row">
+        <section class="col-3">
+            <ng-container>
+                <h5 class="text-warning ml-3 mt-4 mb-4">Controls</h5>
+                <ul class="list-group my-3">
+                    <li class="list-group-item" (click)="onListClick('product')">
+                        Product 
+                    </li>
+                    <li class="list-group-item" (click)="onListClick('productType')">
+                        Product Type
+                    </li>
+                    <li class="list-group-item" (click)="onListClick('productBrand')">
+                        Products Brands
+                    </li>
+                </ul>
+            </ng-container>
+        </section>
+        <section class="col-9">
+            <ng-container *ngIf="activeComponent == 'product'"> 
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    
+                <h4>Products</h4>
+                <div class="d-flex align-items-center">
+                <button class="btn btn-lg btn-primary btn-block" routerLink="/products/new">Add product</button>
+                </div>    
+            </div>       
+                
+                <div class="d-flex justify-content-between align-items-center pb-2">
+                  <app-paging-header
+                    [totalCount]="totalCount"
+                    [pageSize]="this.shopParams.pageSize"
+                    [pageNumber]="this.shopParams.pageNumber"
+                  ></app-paging-header>
+                  <div class="form-inline mt-2" *ngIf="products">
+                    <input (keyup.enter) = "onSearch()"
+                      class="form-control mr-2"
+                      style="width: 300px;"
+                      placeholder="Search"
+                      type="text"
+                      #search
+                    />
+                    <button (click)="onSearch()" class="btn btn-outline-primary my-2">Search</button>
+                    <button (click)="onReset()" class="btn btn-outline-success ml-2 my-2">Reset</button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-4 mb-4" *ngFor="let item of products">
+                    <app-product-item [product]="item"></app-product-item>
+                  </div>
+                </div>
+            
+                <div class="d-flex justify-content-center" *ngIf="this.totalCount > 0">
+                  <app-pager
+                    [pageSize]="shopParams.pageSize"
+                    [totalCount]="totalCount"
+                    [pageNumber]="shopParams.pageNumber"
+                    (pageChanged)="onPageChanged($event)"
+                  ></app-pager>
+                </div>
+            </ng-container>
+             
+            
+            <app-product-type *ngIf="activeComponent == 'productType'"></app-product-type>
+            <app-product-brand *ngIf="activeComponent == 'productBrand'"></app-product-brand>
+        </section>
+
+    </div>
+</div>
+
+

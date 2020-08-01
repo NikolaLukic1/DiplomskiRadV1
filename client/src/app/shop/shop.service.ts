@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import { IPagination, Pagination } from '../shared/models/pagination';
 import { IBrand } from '../shared/models/brand';
 import { IType } from '../shared/models/productType';
 import { map } from 'rxjs/operators';
 import { ShopParams } from '../shared/models/shopParams';
-import { IProduct } from '../shared/models/product';
+import { IProduct, IProductInsertUpdate } from '../shared/models/product';
 import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -77,12 +77,38 @@ export class ShopService {
   }
 
   getProduct(id: number) {
-    const product = this.products.find(p => p.id === id);
-    if (product){
-      return of(product);
-    }
+    // const product = this.products.find(p => p.id === id);
+    // if (product){
+    //   console.log('kao vec ima')
+    //   return of(product);
+    // }
     return this.http.get<IProduct>(this.baseUrl + 'products/' + id);
   }
+
+  editProduct(product: IProductInsertUpdate){
+    return this.http.put<IProductInsertUpdate>(this.baseUrl + 'products/', product);
+  }
+
+  insertProduct(product: IProductInsertUpdate){
+    return this.http.post<IProductInsertUpdate>(this.baseUrl + 'products/', product);
+  }
+
+  deleteProduct(product: IProductInsertUpdate){
+    const httpOptions: any = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization' : localStorage.getItem('token')
+      }
+    };
+    const uri = '/path/to/delete/api';
+    
+    httpOptions.body = product;
+    
+  
+    return this.http.delete(this.baseUrl + 'products/', httpOptions);
+  }
+  
+ 
 
   getBrands(){
     if(this.brands.length > 0){

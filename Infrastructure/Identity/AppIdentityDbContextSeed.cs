@@ -7,7 +7,7 @@ namespace Infrastructure.Identity
 {
     public class AppIdentityDbContextSeed
     {
-        public static async Task SeedUserAsync(UserManager<AppUser> userManager){
+        public static async Task SeedUserAsync(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager){
             if(!userManager.Users.Any()){
                 var user = new AppUser {
                     DisplayName = "Bob",
@@ -20,11 +20,17 @@ namespace Infrastructure.Identity
                         City = "New York",
                         State = "NY",
                         Zipcode = "90210"
-                    }
+                    },
+                    Role = "Administrator"
                 };
             
-            await userManager.CreateAsync(user, "Thenikgame93!@#");
+            await userManager.CreateAsync(user, "Pa$$w0rd");
+            await roleManager.CreateAsync(new IdentityRole(user.Role));
+            await roleManager.CreateAsync(new IdentityRole("Customer"));
+            await userManager.AddToRoleAsync(user, user.Role);
             }
         }
+
+        
     }
 }

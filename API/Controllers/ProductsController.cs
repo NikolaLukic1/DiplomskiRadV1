@@ -6,9 +6,11 @@ using API.Errors;
 using API.Helpers;
 using AutoMapper;
 using Core.Entities;
+using Core.Entities.Identity;
 using Core.Interfaces;
 using Core.Specifications;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +34,7 @@ namespace API.Controllers
 
         }
 
-        [Cached(600)]
+        
         [HttpGet]
         public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts(
             [FromQuery]ProductSpecParams productParams)
@@ -78,5 +80,24 @@ namespace API.Controllers
         {
             return Ok(await _productTypeRepo.ListAllAsync());
         }
+
+        [Authorize(Roles = AppUserRole.Admin)]
+        [HttpPost]
+        public void InsertProduct([FromBody] Product product){
+             _productsRepo.AddProduct(product);
+            
+        } 
+
+        [Authorize(Roles = AppUserRole.Admin)]
+        [HttpPut]
+        public void UpdateProduct([FromBody] Product product){
+             _productsRepo.Update(product);
+        }
+
+        [Authorize(Roles = AppUserRole.Admin)]
+        [HttpDelete]
+        public void DeleteProduct([FromBody] Product product){
+             _productsRepo.Delete(product);
+        }  
     }
 }

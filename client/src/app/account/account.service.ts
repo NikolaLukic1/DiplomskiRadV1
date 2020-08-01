@@ -43,6 +43,10 @@ export class AccountService {
       map((user: IUser) => {
         if(user){
           localStorage.setItem('token', user.token);
+          let jwtData = user.token.split('.')[1];
+          let decodedJwtJsonData = window.atob(jwtData);
+          let decodedJwtData = JSON.parse(decodedJwtJsonData);
+          console.log(decodedJwtData);
           this.currentUserSource.next(user);
         }
       })

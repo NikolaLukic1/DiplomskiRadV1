@@ -1,0 +1,50 @@
+<div class="containter mt-4">
+    <div class="row" *ngIf="product && brands && types">
+        
+        <div class="col-6">
+            <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+                <div class="text-center mb-1">
+                    <h1 class="h3 mb-3 font-weight-normal">Edit product</h1>
+                </div>
+
+                <app-text-input formControlName="name" [label]="'Product name'"></app-text-input>
+                <label for="productDescription">Product description</label>
+                <textarea formControlName="description" 
+                        class="form-control mb-2"
+                        id="productDescription"
+                        placeholder="Product description" rows="3"></textarea>
+                <app-text-input formControlName="price" [label]="'Product price'"></app-text-input>
+                <select class="custom-select mb-4" formControlName="productBrand">
+                    <option *ngFor="let brand of brands" [selected]="this.product.productBrand" [value]="brand.name">
+                        {{ brand.name }}
+                    </option>
+                </select>
+                <select class="custom-select mb-4" formControlName="productType">
+                    <option *ngFor="let type of types" [selected]="this.product.productType" [value]="type.name">
+                        {{ type.name }}
+                    </option>
+                </select>
+
+                <button [disabled]="editForm.invalid" class="btn btn-md btn-success"
+                    type="submit">Save</button>
+            </form>
+        </div>
+        <div class="col-6" >
+            <!-- <img  src="{{product.pictureUrl}}" alt="/assets/images/logo.png" class="img-fluid w-100 h-100">
+            <label for="files" class="btn btn-secondary mt-2 float-right">Change Image</label>
+            <input #Image id="files" type="file" (change)="updatePicture($event.target.files)" style="visibility:hidden;"/> -->
+
+            <div class="image position-relative shadow-sm" style="cursor: pointer;">
+                <div class="mt-5">
+                <img src="/assets/images/placeholder.png" srcset="{{product.pictureUrl}}" class="img-fluid bg-info">
+                <div class="d-flex align-items-center justify-content-center hover-overlay">
+                  <button type="button" class="btn btn-success">
+                    <label for="files">Change Image</label>
+                    <input #Image id="files" type="file" (change)="updatePicture($event.target.files)" style="visibility:hidden;"/>
+                  </button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>

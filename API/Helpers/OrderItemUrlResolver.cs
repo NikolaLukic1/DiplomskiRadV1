@@ -16,7 +16,8 @@ namespace API.Helpers
         public string Resolve(OrderItem source, OrderItemDto destination, string destMember, ResolutionContext context)
         {
             if (!string.IsNullOrEmpty(source.ItemOrdered.PictureUrl)){
-                return _config["ApiUrl"] + source.ItemOrdered.PictureUrl;
+                // return _config["ApiUrl"] + source.ItemOrdered.PictureUrl;
+                return source.ItemOrdered.PictureUrl.Length > 500 ?  source.ItemOrdered.PictureUrl : _config["ApiUrl"] + source.ItemOrdered.PictureUrl;
             }
 
             return null;

@@ -1,3 +1,4 @@
+using System;
 using API.Dtos;
 using AutoMapper;
 using Core.Entities;
@@ -16,7 +17,8 @@ namespace API.Helpers
         public string Resolve(Product source, ProductToReturnDto destination, string destMember, ResolutionContext context)
         {
             if(!string.IsNullOrEmpty(source.PictureUrl)){
-                return _config["ApiUrl"] + source.PictureUrl;
+                Console.WriteLine(source.PictureUrl.Length.ToString() + " Duzina");
+                return source.PictureUrl.Length > 500 ?  source.PictureUrl : _config["ApiUrl"] + source.PictureUrl;
             }
 
             return null;
