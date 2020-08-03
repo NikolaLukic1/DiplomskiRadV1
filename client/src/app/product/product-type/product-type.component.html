@@ -1,13 +1,27 @@
-<div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+<div class="d-flex flex-column 
+flex-md-row align-items-center justify-content-between 
+p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm"
+*ngIf="!this.isInsert">
     
     <h4>Product types</h4>
     <div class="d-flex align-items-center">
-    <button class="btn btn-lg btn-primary btn-block">Add type</button>
+    <button class="btn btn-lg btn-primary btn-block" (click)="this.activateInsert()">Add type</button>
     </div>    
 </div>
 
-<ul class="list-group">
-    <li  class="list-group-item d-flex justify-content-between align-items-center">Cras justo odio
+<form [formGroup]="insertTypeForm" (ngSubmit)="onSubmit()" *ngIf="this.isInsert" class="mb-2">
+<app-text-input 
+formControlName="insert" 
+[label]="'New type'"
+></app-text-input>
+<div class="align-right">
+<button [disabled]="insertTypeForm.invalid" class="btn btn-lg btn-success"
+                    type="submit">Save</button>
+</div>
+</form>
+
+<ul class="list-group" *ngFor="let type of this.types">
+    <li  class="list-group-item d-flex justify-content-between align-items-center">{{type.name}}
         <span>
             <button class="btn btn-sm btn-secondary mr-1">
                 <i class="fa fa-edit"></i>
@@ -17,8 +31,4 @@
             </button>
         </span> 
     </li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Morbi leo risus</li>
-    <li class="list-group-item">Porta ac consectetur ac</li>
-    <li class="list-group-item">Vestibulum at eros</li>
   </ul>

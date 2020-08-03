@@ -16,7 +16,7 @@ import {LoadingInterceptor} from './core/interceptors/loading.interceptor';
 import {JwtInterceptor} from './core/interceptors/jwt.interceptor';
 import { HasroleDirective } from './hasrole.directive';
 import { AuthGuard } from './core/guards/auth.guard';
-import { AuthService } from './core/auth.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,9 +35,7 @@ import { AuthService } from './core/auth.service';
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    AuthGuard,
-    AuthService
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

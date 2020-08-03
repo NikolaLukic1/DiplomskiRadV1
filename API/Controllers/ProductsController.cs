@@ -98,6 +98,12 @@ namespace API.Controllers
         [HttpDelete]
         public void DeleteProduct([FromBody] Product product){
              _productsRepo.Delete(product);
+        }
+
+        [Authorize(Roles = AppUserRole.Admin)]
+        [HttpDelete("brands~")]
+        public void DeleteBrand([FromBody] ProductBrand brand){
+             _productBrandRepo.Delete(brand);
         }  
     }
 }
